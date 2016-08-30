@@ -67,6 +67,7 @@ public class LogstashInstallation extends ToolInstallation {
     public String username;
     public String password;
     public String key;
+    public Integer dbindex;
 
     public Descriptor() {
       super();

@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jenkins.plugins.logstash.persistence.LogstashIndexerDao.IndexerType;
+import jnr.ffi.Struct.int16_t;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -74,7 +75,7 @@ public final class IndexerDaoFactory {
    * @return The instance of the appropriate indexer DAO, never null
    * @throws InstantiationException
    */
-  public static synchronized LogstashIndexerDao getInstance(IndexerType type, String host, Integer port, String key, String username, String password) throws InstantiationException {
+  public static synchronized LogstashIndexerDao getInstance(IndexerType type, String host, Integer port, String key, String username, String password, int dbIndex) throws InstantiationException {
     if (!INDEXER_MAP.containsKey(type)) {
       throw new InstantiationException("[logstash-plugin]: Unknown IndexerType '" + type + "'. Did you forget to configure the plugin?");
     }
@@ -85,8 +86,8 @@ public final class IndexerDaoFactory {
     if (shouldRefreshInstance(type, host, port, key, username, password)) {
       try {
         Class<?> indexerClass = INDEXER_MAP.get(type);
-        Constructor<?> constructor = indexerClass.getConstructor(String.class, int.class, String.class, String.class, String.class);
-        instance = (AbstractLogstashIndexerDao) constructor.newInstance(host, port, key, username, password);
+        Constructor<?> constructor = indexerClass.getConstructor(String.class, int.class, String.class, String.class, String.class, int.class);
+        instance = (AbstractLogstashIndexerDao) constructor.newInstance(host, port, key, username, password, dbIndex);
       } catch (NoSuchMethodException e) {
         throw new InstantiationException(ExceptionUtils.getRootCauseMessage(e));
       } catch (InvocationTargetException e) {

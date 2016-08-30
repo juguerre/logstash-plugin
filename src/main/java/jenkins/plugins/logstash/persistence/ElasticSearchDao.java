@@ -53,13 +53,13 @@ public class ElasticSearchDao extends AbstractLogstashIndexerDao {
   final String auth;
 
   //primary constructor used by indexer factory
-  public ElasticSearchDao(String host, int port, String key, String username, String password) {
-    this(null, host, port, key, username, password);
+  public ElasticSearchDao(String host, int port, String key, String username, String password, int dbIndex) {
+    this(null, host, port, key, username, password, dbIndex);
   }
 
   // Factored for unit testing
-  ElasticSearchDao(HttpClientBuilder factory, String host, int port, String key, String username, String password) {
-    super(host, port, key, username, password);
+  ElasticSearchDao(HttpClientBuilder factory, String host, int port, String key, String username, String password, int dbIndex) {
+    super(host, port, key, username, password, dbIndex);
 
     if (StringUtils.isBlank(key)) {
       throw new IllegalArgumentException("elastic index name is required");

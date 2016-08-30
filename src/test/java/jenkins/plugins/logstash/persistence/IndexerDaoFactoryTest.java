@@ -12,7 +12,7 @@ public class IndexerDaoFactoryTest {
   public void getAllInstances() throws Exception {
     for (IndexerType type : IndexerType.values()) {
       String host = type == IndexerType.ELASTICSEARCH ? "http://localhost" : "localhost";
-      LogstashIndexerDao dao = IndexerDaoFactory.getInstance(type, host, 1234, "key", "username", "password");
+      LogstashIndexerDao dao = IndexerDaoFactory.getInstance(type, host, 1234, "key", "username", "password", 666);
 
       assertNotNull("Result was null", dao);
       assertEquals("Result implements wrong IndexerType", type, dao.getIndexerType());
@@ -23,7 +23,7 @@ public class IndexerDaoFactoryTest {
   public void successNulls() throws Exception {
     for (IndexerType type : IndexerType.values()) {
       String host = type == IndexerType.ELASTICSEARCH ? "http://localhost" : "localhost";
-      LogstashIndexerDao dao = IndexerDaoFactory.getInstance(type, host, null, "key", null, null);
+      LogstashIndexerDao dao = IndexerDaoFactory.getInstance(type, host, null, "key", null, null, 666);
 
       assertNotNull("Result was null", dao);
       assertEquals("Result implements wrong IndexerType", type, dao.getIndexerType());
@@ -33,7 +33,7 @@ public class IndexerDaoFactoryTest {
   @Test(expected = InstantiationException.class)
   public void failureNullType() throws Exception {
     try {
-      IndexerDaoFactory.getInstance(null, "localhost", 1234, "key", "username", "password");
+      IndexerDaoFactory.getInstance(null, "localhost", 1234, "key", "username", "password", 666);
     } catch (InstantiationException e) {
       String msg = "[logstash-plugin]: Unknown IndexerType 'null'. Did you forget to configure the plugin?";
       assertEquals("Wrong message", msg, e.getMessage());

@@ -42,13 +42,13 @@ public class RabbitMqDao extends AbstractLogstashIndexerDao {
   final ConnectionFactory pool;
 
   //primary constructor used by indexer factory
-  public RabbitMqDao(String host, int port, String key, String username, String password) {
-    this(null, host, port, key, username, password);
+  public RabbitMqDao(String host, int port, String key, String username, String password, int dbIndex) {
+    this(null, host, port, key, username, password, dbIndex);
   }
 
   // Factored for unit testing
-  RabbitMqDao(ConnectionFactory factory, String host, int port, String key, String username, String password) {
-    super(host, port, key, username, password);
+  RabbitMqDao(ConnectionFactory factory, String host, int port, String key, String username, String password, int dbIndex) {
+    super(host, port, key, username, password, dbIndex);
 
     if (StringUtils.isBlank(key)) {
       throw new IllegalArgumentException("rabbit queue name is required");

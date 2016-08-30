@@ -24,7 +24,7 @@ public class SyslogDaoTest {
  	  
   @Before
   public void before() throws Exception {    
-    dao = createDao(host, port, null, null, null);
+    dao = createDao(host, port, null, null, null, 666);
     dao.push(data); 
   }
 
@@ -59,7 +59,7 @@ public class SyslogDaoTest {
     testSyslogSend.sendMessage(" @cee: " + data);
   }
   
-  SyslogDao createDao(String host, int port, String key, String username, String password) {
-    return new SyslogDao(mockUdpSyslogMessageSender, host, port, key, username, password);
+  SyslogDao createDao(String host, int port, String key, String username, String password, int dbIndex) {
+    return new SyslogDao(mockUdpSyslogMessageSender, host, port, key, username, password, dbIndex);
   }
 }

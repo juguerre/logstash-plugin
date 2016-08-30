@@ -27,8 +27,8 @@ public class RabbitMqDaoTest {
   @Mock Connection mockConnection;
   @Mock Channel mockChannel;
 
-  RabbitMqDao createDao(String host, int port, String key, String username, String password) {
-    RabbitMqDao factory = new RabbitMqDao(mockPool, host, port, key, username, password);
+  RabbitMqDao createDao(String host, int port, String key, String username, String password, int dbIndex) {
+    RabbitMqDao factory = new RabbitMqDao(mockPool, host, port, key, username, password, dbIndex);
     verify(mockPool, atLeastOnce()).setHost(host);
     verify(mockPool, atLeastOnce()).setPort(port);
 
@@ -44,7 +44,7 @@ public class RabbitMqDaoTest {
   public void before() throws Exception {
     int port = (int) (Math.random() * 1000);
     // Note that we can't run these tests in parallel
-    dao = createDao("localhost", port, "logstash", "username", "password");
+    dao = createDao("localhost", port, "logstash", "username", "password", 666);
 
     when(mockPool.newConnection()).thenReturn(mockConnection);
 
@@ -64,7 +64,7 @@ public class RabbitMqDaoTest {
   @Test(expected = IllegalArgumentException.class)
   public void constructorFailNullHost() throws Exception {
     try {
-      createDao(null, 5672, "logstash", "username", "password");
+      createDao(null, 5672, "logstash", "username", "password", 666);
     } catch (IllegalArgumentException e) {
       assertEquals("Wrong error message was thrown", "host name is required", e.getMessage());
       throw e;
@@ -74,7 +74,7 @@ public class RabbitMqDaoTest {
   @Test(expected = IllegalArgumentException.class)
   public void constructorFailEmptyHost() throws Exception {
     try {
-      createDao(" ", 5672, "logstash", "username", "password");
+      createDao(" ", 5672, "logstash", "username", "password", 666);
     } catch (IllegalArgumentException e) {
       assertEquals("Wrong error message was thrown", "host name is required", e.getMessage());
       throw e;
@@ -84,7 +84,7 @@ public class RabbitMqDaoTest {
   @Test(expected = IllegalArgumentException.class)
   public void constructorFailNullKey() throws Exception {
     try {
-      createDao("localhost", 5672, null, "username", "password");
+      createDao("localhost", 5672, null, "username", "password", 666);
     } catch (IllegalArgumentException e) {
       assertEquals("Wrong error message was thrown", "rabbit queue name is required", e.getMessage());
       throw e;
@@ -94,7 +94,7 @@ public class RabbitMqDaoTest {
   @Test(expected = IllegalArgumentException.class)
   public void constructorFailEmptyKey() throws Exception {
     try {
-      createDao("localhost", 5672, " ", "username", "password");
+      createDao("localhost", 5672, " ", "username", "password", 666);
     } catch (IllegalArgumentException e) {
       assertEquals("Wrong error message was thrown", "rabbit queue name is required", e.getMessage());
       throw e;
@@ -104,7 +104,7 @@ public class RabbitMqDaoTest {
   @Test
   public void constructorSuccess() throws Exception {
     // Unit under test
-    dao = createDao("localhost", 5672, "logstash", "username", "password");
+    dao = createDao("localhost", 5672, "logstash", "username", "password", 666);
 
     // Verify results
     assertEquals("Wrong host name", "localhost", dao.host);
@@ -194,7 +194,7 @@ public class RabbitMqDaoTest {
   @Test
   public void pushSuccessNoAuth() throws Exception {
     String json = "{ 'foo': 'bar' }";
-    dao = createDao("localhost", 5672, "logstash", null, null);
+    dao = createDao("localhost", 5672, "logstash", null, null, 666);
 
     // Unit under test
     dao.push(json);
