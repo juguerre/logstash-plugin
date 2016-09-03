@@ -21,9 +21,15 @@
       <f:textbox value="${descriptor.key}" default="logstash"
         checkUrl="'descriptorByName/LogstashInstallation/checkString?value='+escape(this.value)" />
     </f:entry>
-    <f:entry title="${%Dbindex}" field="dbindex">
-      <f:textbox value="${descriptor.dbindex}" default="0"
-        checkUrl="'descriptorByName/LogstashInstallation/checkInteger?value='+escape(this.value)" />
-    </f:entry>
-  </f:section>
+    <f:section title="Advanced Logstash Plugin Parameters">
+  		<f:advanced>
+    		<f:entry title="${%REDIS Dbindex}" field="dbindex">
+      			<f:textbox value="${descriptor.dbindex}" default="0"
+        			checkUrl="'descriptorByName/LogstashInstallation/checkInteger?value='+escape(this.value)" />
+        
+    		</f:entry>
+    	</f:advanced>
+  	</f:section>
+    </f:section>
+    
 </j:jelly>
