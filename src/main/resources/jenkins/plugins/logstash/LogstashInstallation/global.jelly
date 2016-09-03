@@ -21,9 +21,16 @@
       <f:textbox value="${descriptor.key}" default="logstash"
         checkUrl="'descriptorByName/LogstashInstallation/checkString?value='+escape(this.value)" />
     </f:entry>
-    <f:entry title="${%Dbindex}" field="dbindex">
-      <f:textbox value="${descriptor.dbindex}" default="0"
-        checkUrl="'descriptorByName/LogstashInstallation/checkInteger?value='+escape(this.value)" />
-    </f:entry>
+    <f:block>
+	  
+	    <f:optionalBlock name="redis" title="Use DBIndex for REDIS indexer">
+	      <f:entry title="${%Dbindex}" field="dbindex">
+      		<f:textbox value="${descriptor.redis.dbindex}" default="0"
+        	checkUrl="'descriptorByName/LogstashInstallation/checkInteger?value='+escape(this.value)" />
+    	  </f:entry>
+	    </f:optionalBlock>
+	  
+	</f:block>
+    
   </f:section>
 </j:jelly>

@@ -59,6 +59,21 @@ public class LogstashInstallation extends ToolInstallation {
     return (Descriptor) Jenkins.getInstance().getDescriptor(LogstashInstallation.class);
   }
 
+  
+  public static final class Redis {
+	  public Integer dbindex;
+
+	@DataBoundConstructor
+	public Redis (Integer dbindex){
+		this.dbindex = dbindex;
+			
+	}
+	
+    
+    
+  }
+  
+  
   @Extension
   public static final class Descriptor extends ToolDescriptor<LogstashInstallation> {
     public IndexerType type;
@@ -68,6 +83,7 @@ public class LogstashInstallation extends ToolInstallation {
     public String password;
     public String key;
     public Integer dbindex;
+    public Redis redis;
 
     public Descriptor() {
       super();
