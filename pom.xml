@@ -28,6 +28,9 @@
     <url>http://github.com/jenkinsci/logstash-plugin</url>
     <tag>HEAD</tag>
   </scm>
+   <properties>
+        <jenkins.version>2.17</jenkins.version>
+  </properties>
 
   <distributionManagement>
     <repository>
